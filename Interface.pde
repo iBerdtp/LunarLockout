@@ -1,4 +1,12 @@
-interface Interface
+// abstract class want defualt methods mogen niet fsr
+abstract class Interface
 {
-  void iterate();
+  void superIterate()
+  {
+    handleInput();
+    iterate();
+  }
+  
+  abstract void handleInput();
+  abstract void iterate();
 }

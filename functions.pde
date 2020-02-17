@@ -1,8 +1,5 @@
-void mousePressed() {
-  //selected = new PVector(mouseX/100, mouseY/100);
-}
-
-void keyPressed() { 
+void keyPressed()
+{
   KEYS[keyCode] = true;
   if(keyCode == 'R')
     setup();

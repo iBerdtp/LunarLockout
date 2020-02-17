@@ -1,4 +1,4 @@
-abstract class Game implements Interface
+abstract class Game extends Interface
 {
   SoundFile file;
   int arrayDim;
@@ -38,7 +38,6 @@ abstract class Game implements Interface
   void iterate()
   {
     noLoop();
-    handleInput();
     background(75);
     showBoard();
     showSelected();

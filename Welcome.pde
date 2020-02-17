@@ -1,4 +1,4 @@
-class Welcome implements Interface
+class Welcome extends Interface
 {
   int textSize;
   String[] questions;
@@ -27,8 +27,6 @@ class Welcome implements Interface
   
   void iterate()
   {
-    //noLoop();
-    handleInput();
     if(index == questions.length)
       openGame(answers[0], answers[1], answers[2], answers[3], answers[4], answers[4]); //<>// //<>//
     else
