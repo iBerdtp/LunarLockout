@@ -65,9 +65,6 @@ abstract class Game implements Interface
     if (KEYS[BACKSPACE])
       reset();
       
-    if (KEYS['O'])
-      returnToOptions();
-      
     resetKeys();
   }
   

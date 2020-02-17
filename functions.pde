@@ -26,8 +26,3 @@ void openGame(int type, int dim, int nrOfGoals, int nrOfPawns, int min, int max)
   else
     inFa = new HexGame(dim, nrOfGoals, nrOfPawns, min, max, file, new Move[]{Move.UP, Move.LEFT, Move.DOWN_LEFT, Move.UP_RIGHT, Move.RIGHT, Move.DOWN}, new int[]{36, 37, 35, 33, 39, 34}, SHIFT);
 }
-
-void returnToOptions()
-{
-  inFa = new Welcome();
-}
