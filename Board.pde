@@ -1,7 +1,7 @@
 class Board //<>//
 {
   int arrayDim;
-  int[][] board;
+  private int[][] board;
   Board parent;
   PVector lastSelected;
   Move lastMove;
@@ -62,7 +62,7 @@ class Board //<>//
 
   int get(int x, int y)
   {
-    return board[y][x];
+    return board[x][y];
   }
 
   int get(PVector v)
@@ -86,7 +86,7 @@ class Board //<>//
 
   void set(int x, int y, int n)
   {
-    board[y][x] = n;
+    board[x][y] = n;
   }
 
   void set(PVector v, int n)
@@ -114,13 +114,19 @@ class Board //<>//
     return b;
   }
   
-  String[][] toStringArray()
+  String[][] toStringArray(boolean includeGoal)
   {
     String[][] strArray = new String[arrayDim][arrayDim];
     for(int y=0; y<arrayDim; y++)
       for (int x=0; x<arrayDim; x++)
+      {
+        strArray[x][y]=Integer.toString(get(x,y));
+        if(!includeGoal)
+          continue;
         for(PVector goal : goals)
-          strArray[y][x]=get(x,y)+((goal.x == x && goal.y == y)?"g":"");
+          if(goal.x == x && goal.y == y)
+            strArray[x][y] += "g";
+      }
     return strArray;
   }
 }

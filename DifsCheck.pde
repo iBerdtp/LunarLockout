@@ -37,7 +37,7 @@ class DifsCheck
       if(dif >= maxDif)
       {
         maxDif = dif;
-        printBoard(b.toStringArray());
+        printBoard(b.toStringArray(true));
         println(maxDif);
       }
       if(!tweak(bluePositions, allPositions.length))

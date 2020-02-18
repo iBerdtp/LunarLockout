@@ -5,7 +5,6 @@ boolean[] KEYS;
 
 void setup()
 {
-  noLoop();
   size(500, 500);
   resetKeys();
   file = new SoundFile(this, "zelda.mp3");

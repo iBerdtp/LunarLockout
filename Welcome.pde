@@ -22,12 +22,10 @@ class Welcome extends Interface
     answers = new int[questions.length];
     text = "";
     index = 0;
-    loop();
   }
   
   void iterate()
   {
-    noLoop();
     if(index == questions.length)
       openGame(answers[0], answers[1], answers[2], answers[3], answers[4]); //<>//
     else

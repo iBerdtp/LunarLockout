@@ -30,12 +30,10 @@ abstract class Game extends Interface
     setMap(moveControls, allowed);
     setAdditional();
     createNewPuzzle();
-    loop();
   }
   
   void iterate()
   {
-    noLoop();
     background(75);
     showBoard();
     showSelected();

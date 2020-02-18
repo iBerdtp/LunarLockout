@@ -37,8 +37,8 @@ class BFS
       return null;
     Board current = frontier.remove(0);
     for (int i = 0; i < current.arrayDim; i++)
-      for (int j = 0; j < current.arrayDim; j++) //<>// //<>//
-        if (current.get(i, j) > 0) //<>// //<>//
+      for (int j = 0; j < current.arrayDim; j++) //<>//
+        if (current.get(i, j) > 0) //<>//
           for (Move move : allowed)
           {
             Board copy = current.copy();

@@ -8,6 +8,11 @@ void keyPressed()
   redraw();
 }
 
+void mousePressed()
+{
+  redraw();
+}
+
 PVector getRandom(ArrayList<PVector> vectors)
 {
   return vectors.remove((int)random(0, vectors.size()));
@@ -28,8 +33,8 @@ void openGame(int type, int dim, int nrOfGoals, int nrOfPawns, int optimal)
 
 void savePuzzle(Board initial, int optimal, String type)
 {
-  String[][] board = initial.toStringArray();
-  String fileName = "saves/" + type.substring(18) + "/" + optimal + "/" + board.hashCode();
+  String[][] board = initial.toStringArray(true);
+  String fileName = "saves/" + type.substring(18) + "/" + optimal + "/" + board.hashCode() + ".txt";
   PrintWriter output = createWriter(fileName);
   for(String[] a : board)
     output.println(Arrays.toString(a));
