@@ -1,8 +1,8 @@
 class SquareGame extends Game
 {
-  SquareGame(int dim, int nrOfGoals, int nrOfPawns, int min, int max, SoundFile file, Move[] allowed, int[] moveControls, int switchControl)
+  SquareGame(int dim, int nrOfGoals, int nrOfPawns, int optimal, SoundFile file, Move[] allowed, int[] moveControls, int switchControl)
   {
-    super(dim, nrOfGoals, nrOfPawns, min, max, file, allowed, moveControls, switchControl);
+    super(dim, nrOfGoals, nrOfPawns, optimal, file, allowed, moveControls, switchControl);
   }
   
   void showBoard()

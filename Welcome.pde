@@ -27,8 +27,9 @@ class Welcome extends Interface
   
   void iterate()
   {
+    noLoop();
     if(index == questions.length)
-      openGame(answers[0], answers[1], answers[2], answers[3], answers[4], answers[4]); //<>// //<>//
+      openGame(answers[0], answers[1], answers[2], answers[3], answers[4]); //<>//
     else
     {
       fill(255);
@@ -61,7 +62,6 @@ class Welcome extends Interface
         else if(index>0)
           index--;
     }
-    resetKeys();
   }
   
   void printAnswered()

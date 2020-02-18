@@ -5,8 +5,7 @@ abstract class Game extends Interface
   int squareSize;
   int nrOfGoals;
   int nrOfPawns;
-  int min;
-  int max;
+  int optimal;
   Board initial;
   Board current;
   PVector selected;
@@ -17,14 +16,13 @@ abstract class Game extends Interface
   int switchControl;
   HashMap<Integer, Move> map;
   
-  Game(int arrayDim, int nrOfGoals, int nrOfPawns, int min, int max, SoundFile file, Move[] allowed, int[] moveControls, int switchControl)
+  Game(int arrayDim, int nrOfGoals, int nrOfPawns, int optimal, SoundFile file, Move[] allowed, int[] moveControls, int switchControl)
   {
     this.arrayDim = arrayDim;
     this.squareSize = 100;
     this.nrOfGoals = nrOfGoals;
     this.nrOfPawns = nrOfPawns;
-    this.min = min;
-    this.max = max;
+    this.optimal = optimal;
     this.file = file;
     this.allowed = allowed;
     this.moveControls = moveControls;
@@ -64,12 +62,13 @@ abstract class Game extends Interface
     if (KEYS[BACKSPACE])
       reset();
       
-    resetKeys();
+    if (KEYS['S'])
+      savePuzzle(initial, optimal, this.getClass().getName());
   }
   
   void createNewPuzzle()
   {
-    initial = generate(arrayDim, nrOfGoals, nrOfPawns, min, max, allowed);
+    initial = generate(arrayDim, nrOfGoals, nrOfPawns, optimal, allowed);
     reset();
   }
   
@@ -106,7 +105,7 @@ abstract class Game extends Interface
       map.put(controls[i], allowed[i]);
   }
 
-  Board generate(int arrayDim, int nrOfGoals, int nrOfPawns, int minimumDepth, int maximumDepth, Move[] allowed)
+  Board generate(int arrayDim, int nrOfGoals, int nrOfPawns, int optimal, Move[] allowed)
   {
     IntList possibleDifs = new IntList();
     while (true)
@@ -121,7 +120,7 @@ abstract class Game extends Interface
         possibleDifs.sort();
         println("possible difs: " + possibleDifs);
       }
-      if (solution != null && solution.depth >= minimumDepth && solution.depth <= maximumDepth)
+      if (solution != null && solution.depth == optimal)
       {
         println("solvable in " + solution.depth);
         board.depth = 0;

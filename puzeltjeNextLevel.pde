@@ -14,5 +14,5 @@ void setup()
 
 void draw()
 {
-  inFa.iterate();
+  inFa.superIterate();
 }

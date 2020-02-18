@@ -3,9 +3,9 @@ class HexGame extends Game
   int chosenDim;
   float ellipseFactor;
   
-  HexGame(int dim, int nrOfGoals, int nrOfPawns, int min, int max, SoundFile file, Move[] allowed, int[] moveControls, int switchControl)
+  HexGame(int dim, int nrOfGoals, int nrOfPawns, int optimal, SoundFile file, Move[] allowed, int[] moveControls, int switchControl)
   {
-    super(dim*2-1, nrOfGoals, nrOfPawns, min, max, file, allowed, moveControls, switchControl);
+    super(dim*2-1, nrOfGoals, nrOfPawns, optimal, file, allowed, moveControls, switchControl);
   }
   
   void setAdditional()

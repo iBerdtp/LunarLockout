@@ -5,6 +5,7 @@ abstract class Interface
   {
     handleInput();
     iterate();
+    resetKeys();
   }
   
   abstract void handleInput();
