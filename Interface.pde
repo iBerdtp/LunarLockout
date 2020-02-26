@@ -4,7 +4,7 @@ abstract class Interface
   void superIterate()
   {
     handleInput();
-    resetKeys();
+    util.resetKeys();
     iterate();
   }
   

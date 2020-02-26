@@ -12,13 +12,13 @@ class DifficultyLoadInterface extends TextInterface
     );
     this.typeDir = typeDir;
     this.type = type;
-    this.difficulties = toIntArray(typeDir.list());
+    this.difficulties = util.toIntArray(typeDir.list());
   }
   
   void performWhenDone()
   {
     int answer = answers[0];
-    if(contains(difficulties, answer))
+    if(util.contains(difficulties, answer))
       inFa = new SelectPuzzleInterface(new File(typeDir, Integer.toString(answer)));
     else
       inFa = new DifficultyLoadInterface(typeDir, type);

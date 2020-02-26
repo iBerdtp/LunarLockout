@@ -77,7 +77,7 @@ abstract class Game extends Interface
       reset();
       
     if (KEYS['S'])
-      savePuzzle(initial, optimal, this.getClass().getName());
+      util.savePuzzle(initial, optimal, this.getClass().getName());
   }
   
   void createNewPuzzle()

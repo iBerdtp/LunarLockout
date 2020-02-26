@@ -83,14 +83,14 @@ class HexGame extends Game
     ArrayList<PVector> possibleGoals = getPossibleSpots(b, 1);
     b.goals = new PVector[nrOfGoals];
     for(int i=0; i<nrOfGoals; i++)
-      b.goals[i] = getRandom(possibleGoals);
+      b.goals[i] = util.getRandom(possibleGoals);
   }
   
   void setUnits(Board b, int nrOfGoals, int nrOfPawns)
   {
     ArrayList<PVector> spots = getPossibleSpots(b, 0);
     for (int i=0; i<nrOfPawns; i++)
-      b.set(getRandom(spots), 2);
+      b.set(util.getRandom(spots), 2);
     for(int i=0; i<spots.size(); i++)
       for(int j=0; j<b.goals.length; j++)
         if(spots.get(i).equals(b.goals[j]))
@@ -99,7 +99,7 @@ class HexGame extends Game
           break;
         }
     for(int i=0; i<nrOfGoals; i++)
-      b.set(getRandom(spots), 1);
+      b.set(util.getRandom(spots), 1);
   }
   
   ArrayList<PVector> getPossibleSpots(Board b, int rimSize)
