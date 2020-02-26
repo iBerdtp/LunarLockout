@@ -1,12 +1,12 @@
 class Board //<>//
 {
-  int arrayDim;
+  private int arrayDim;
   private int[][] board;
   Board parent;
   PVector lastSelected;
   Move lastMove;
   int depth;
-  PVector[] goals;
+  private PVector[] goals;
   
   Board(int arrayDim)
   {
@@ -22,6 +22,13 @@ class Board //<>//
       set(v, 2);
     for(PVector v : blues)
       set(v, 1);
+  }
+  
+  Board(int arrayDim, PVector goals[], int[][] board)
+  {
+    this(arrayDim);
+    this.goals = goals;
+    this.board = board;
   }
 
   PVector move(PVector selected, Move move)
@@ -114,19 +121,39 @@ class Board //<>//
     return b;
   }
   
-  String[][] toStringArray(boolean includeGoal)
+  String[][] toStringArray()
   {
     String[][] strArray = new String[arrayDim][arrayDim];
     for(int y=0; y<arrayDim; y++)
       for (int x=0; x<arrayDim; x++)
       {
         strArray[x][y]=Integer.toString(get(x,y));
-        if(!includeGoal)
-          continue;
         for(PVector goal : goals)
           if(goal.x == x && goal.y == y)
             strArray[x][y] += "g";
       }
     return strArray;
+  }
+  
+  int getDim()
+  {
+    return arrayDim;
+  }
+  
+  PVector[] getGoals()
+  {
+    return goals;
+  }
+  
+  String toString()
+  {
+    StringBuilder sb = new StringBuilder();
+    for(int y=0; y<board.length; y++)
+    {
+      for(int x=0; x<board[y].length; x++)
+        sb.append(get(x,y) + (x<board[y].length-1?" ":""));
+      sb.append(y<board.length-1?"\n":"");
+    }
+    return sb.toString();
   }
 }

@@ -8,16 +8,21 @@ class HexGame extends Game
     super(dim*2-1, nrOfGoals, nrOfPawns, optimal, file, allowed, moveControls, switchControl);
   }
   
+  HexGame(Board board, SoundFile file, Move[] allowed, int[] moveControls, int switchControl)
+  {
+    super(board, file, allowed, moveControls, switchControl);
+  }
+  
   void setAdditional()
   {
     this.chosenDim = (arrayDim+1)/2;
     surface.setSize(arrayDim*squareSize, ceil(sqrt(3)*(chosenDim-1)*squareSize+squareSize));
     this.ellipseFactor = 0.8;
-    ellipseMode(CENTER);
   }
   
   void showBoard()
   {
+    ellipseMode(CENTER);
     for (int i=0; i<arrayDim; i++)
       for (int j=0; j<arrayDim; j++)
       {
@@ -48,13 +53,13 @@ class HexGame extends Game
     for (int i=0; i<arrayDim; i++)
       for (int j=0; j<arrayDim; j++)
         if (selected.x == i && selected.y == j)
-        {
+        { //<>//
           noFill();
           strokeWeight(3);
           stroke(255, 255, 0);
           ellipse((i+(j-chosenDim+2f)/2)*squareSize, (0.5+j*sqrt(3)/2)*squareSize, squareSize, squareSize);
-        }
-  } //<>//
+        } //<>//
+  } //<>// //<>//
   
   void fillAccordingly(Board b, int nrOfGoals, int nrOfPawns)
   {
@@ -105,5 +110,4 @@ class HexGame extends Game
         spots.add(new PVector(x, y));
     return spots;
   }
-
 }

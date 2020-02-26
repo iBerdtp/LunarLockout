@@ -1,4 +1,8 @@
 import java.util.Arrays;
+import java.util.Scanner;
+
+final String savesPath = "C:\\Users\\Bert\\Documents\\PROCESSING\\PROJECJES\\puzeltjeNextLevel\\saves\\";
+final File savesDir = new File(savesPath);
 
 void keyPressed()
 {
@@ -22,22 +26,64 @@ void resetKeys()
 {
   KEYS = new boolean[255];
 }
-  
-void openGame(int type, int dim, int nrOfGoals, int nrOfPawns, int optimal)
+
+boolean contains(int[] a, int i)
 {
-  if(type == 1)
-    inFa = new SquareGame(dim, nrOfGoals, nrOfPawns, optimal, file, new Move[]{Move.UP, Move.LEFT, Move.RIGHT, Move.DOWN}, new int[]{UP, LEFT, RIGHT, DOWN}, SHIFT);
-  else
-    inFa = new HexGame(dim, nrOfGoals, nrOfPawns, optimal, file, new Move[]{Move.UP, Move.LEFT, Move.DOWN_LEFT, Move.UP_RIGHT, Move.RIGHT, Move.DOWN}, new int[]{36, 37, 35, 33, 39, 34}, SHIFT);
+  for(int e : a)
+    if(i == e)
+      return true;
+  return false;
+}
+
+int[] toIntArray(String[] strings)
+{
+  int[] ints = new int[strings.length];
+  for(int i=0; i<strings.length; i++)
+    ints[i] = Integer.parseInt(strings[i]);
+  return ints;
 }
 
 void savePuzzle(Board initial, int optimal, String type)
 {
-  String[][] board = initial.toStringArray(true);
-  String fileName = "saves/" + type.substring(18) + "/" + optimal + "/" + board.hashCode() + ".txt";
+  File dir = new File(savesPath + type.substring(18) + "\\" + optimal);
+  String fileName = dir.getPath() + "\\" + (dir.isDirectory() ? dir.list().length : 0) + ".puz";
+  PVector[] goals = initial.getGoals();
   PrintWriter output = createWriter(fileName);
-  for(String[] a : board)
-    output.println(Arrays.toString(a));
+  
+  output.println(initial.getDim());
+  output.println(initial);
+  output.println(goals.length);
+  for(PVector v : goals)
+    output.println((int)v.x + " " + (int)v.y);
   output.close();
+  
   println("saved to: " + fileName);
+}
+
+void showSquareBoard(Board current, int borderSize)
+{
+  ellipseMode(CORNER);
+  int arrayDim = current.getDim();
+  int squareSize = (width-2*borderSize)/arrayDim;
+  for (int i=0; i<arrayDim; i++)
+    for (int j=0; j<arrayDim; j++)
+    {
+      fill(0);
+      for(PVector goal : current.goals)
+        if (goal.x == i && goal.y == j)
+          fill(255, 0, 0);
+      strokeWeight(1);
+      stroke(255);
+      rect(borderSize+i*squareSize, borderSize+j*squareSize, squareSize, squareSize);
+      if (current.get(i, j) == 1)
+        drawPionnetje(0, 0, 255, borderSize, squareSize, i, j);
+      else if (current.get(i, j) > 1)
+        drawPionnetje(0, 255, 0, borderSize, squareSize, i, j);
+    }
+}
+
+void drawPionnetje(int r, int g, int b, int borderSize, int squareSize, int i, int j)
+{
+  fill(r, g, b);
+  ellipse(borderSize+i*squareSize, borderSize+j*squareSize, squareSize, squareSize);
 }

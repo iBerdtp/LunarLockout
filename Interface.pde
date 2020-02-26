@@ -4,8 +4,8 @@ abstract class Interface
   void superIterate()
   {
     handleInput();
-    iterate();
     resetKeys();
+    iterate();
   }
   
   abstract void handleInput();

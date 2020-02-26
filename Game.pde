@@ -15,6 +15,7 @@ abstract class Game extends Interface
   int[] moveControls;
   int switchControl;
   HashMap<Integer, Move> map;
+  boolean newGame;
   
   Game(int arrayDim, int nrOfGoals, int nrOfPawns, int optimal, SoundFile file, Move[] allowed, int[] moveControls, int switchControl)
   {
@@ -27,9 +28,24 @@ abstract class Game extends Interface
     this.allowed = allowed;
     this.moveControls = moveControls;
     this.switchControl = switchControl;
+    this.newGame = true;
     setMap(moveControls, allowed);
     setAdditional();
     createNewPuzzle();
+  }
+  
+  Game(Board board, SoundFile file, Move[] allowed, int[] moveControls, int switchControl)
+  {
+    this.arrayDim = board.arrayDim;
+    this.squareSize = 100;
+    this.file = file;
+    this.allowed = allowed;
+    this.moveControls = moveControls;
+    this.switchControl = switchControl;
+    this.newGame = false;
+    setMap(moveControls, allowed);
+    setAdditional();
+    setBoard(board);
   }
   
   void iterate()
@@ -66,7 +82,15 @@ abstract class Game extends Interface
   
   void createNewPuzzle()
   {
+    if(!newGame)
+      return;
     initial = generate(arrayDim, nrOfGoals, nrOfPawns, optimal, allowed);
+    reset();
+  }
+  
+  void setBoard(Board board)
+  {
+    initial = board;
     reset();
   }
   
@@ -106,8 +130,10 @@ abstract class Game extends Interface
   Board generate(int arrayDim, int nrOfGoals, int nrOfPawns, int optimal, Move[] allowed)
   {
     IntList possibleDifs = new IntList();
+    int tried = 0;
     while (true)
     {
+      tried++;
       Board board = new Board(arrayDim);
       fillAccordingly(board, nrOfGoals, nrOfPawns);
       BFS bfs = new BFS(board, allowed); 
@@ -122,6 +148,7 @@ abstract class Game extends Interface
       {
         println("solvable in " + solution.depth);
         board.depth = 0;
+        println("tried " + tried);
         return board;
       }
     }

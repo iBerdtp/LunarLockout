@@ -5,28 +5,14 @@ class SquareGame extends Game
     super(dim, nrOfGoals, nrOfPawns, optimal, file, allowed, moveControls, switchControl);
   }
   
+  SquareGame(Board board, SoundFile file, Move[] allowed, int[] moveControls, int switchControl)
+  {
+    super(board, file, allowed, moveControls, switchControl);
+  }
+  
   void showBoard()
   {
-    for (int i=0; i<arrayDim; i++)
-      for (int j=0; j<arrayDim; j++)
-      {
-        fill(0);
-        for(PVector goal : current.goals)
-          if (goal.x == i && goal.y == j)
-            fill(255, 0, 0);
-        strokeWeight(1);
-        stroke(255);
-        rect(i*squareSize, j*squareSize, squareSize, squareSize);
-        if (current.get(i, j) == 1)
-        {
-          fill(0, 0, 255);
-          ellipse(i*squareSize, j*squareSize, squareSize, squareSize);
-        } else if (current.get(i, j) > 1)
-        {
-          fill(0, 255, 0);
-          ellipse(i*squareSize, j*squareSize, squareSize, squareSize);
-        }
-      }
+    showSquareBoard(current, 0);
   }
 
   void showSelected()
@@ -83,7 +69,6 @@ class SquareGame extends Game
   
   void setAdditional()
   {
-    ellipseMode(CORNER);
     surface.setSize(arrayDim*squareSize, arrayDim*squareSize);
   }
 }
