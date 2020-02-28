@@ -1,11 +1,12 @@
 import processing.sound.*;
 import java.util.Comparator;
 import java.util.Collections;
+import java.util.Arrays;
 
 void setup()
 {
   size(500, 500);
-  util.resetKeys();
+  u_resetKeys();
   file = new SoundFile(this, "zelda.mp3");
   inFa = new Welcome();
 }
@@ -32,7 +33,6 @@ void mousePressed()
 SoundFile file;
 Interface inFa;
 boolean[] KEYS;
-final Util util = new Util();
 final String savesPath = "C:\\Users\\Bert\\Documents\\PROCESSING\\PROJECJES\\puzeltjeNextLevel\\saves\\";
 final File savesDir = new File(savesPath);
 final float ellipseFactor = 0.8;

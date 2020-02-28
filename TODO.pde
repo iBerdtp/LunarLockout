@@ -6,3 +6,4 @@
 // DifficultyLoadInterface koel maken met class instance generator toestand
 // chosenDim met casten doen
 // sure check
+// Arrays.deepHashCode proberen

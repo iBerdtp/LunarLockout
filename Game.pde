@@ -83,7 +83,7 @@ abstract class Game extends Interface
     
     if (KEYS['S'] && !alreadySaved)
     {
-      util.savePuzzle(initial, this.getClass().getName());
+      u_savePuzzle(initial, this.getClass().getName());
       alreadySaved = true;
     }
   }

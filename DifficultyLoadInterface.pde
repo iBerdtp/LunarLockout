@@ -9,19 +9,26 @@ class DifficultyLoadInterface extends TextInterface
     super
     (
       parentInFa,
-      "[" + String.join(",", typeDir.list()) + "]?"
+      getLine(typeDir)
     );
     this.typeDir = typeDir;
     this.boardType = boardType;
-    this.difficulties = util.toIntArray(typeDir.list());
+    this.difficulties = u_toIntArray(typeDir.list());
   }
   
   void performWhenDone()
   {
     int answer = answers[0];
-    if(util.contains(difficulties, answer))
+    if(u_contains(difficulties, answer))
       inFa = new SelectPuzzleInterface(this, new File(typeDir, Integer.toString(answer)), boardType);
     else
       inFa = new DifficultyLoadInterface(this, typeDir, boardType);
   }
+}
+
+String getLine(File typeDir)
+{
+  int[] difs = u_toIntArray(typeDir.list());
+  Arrays.sort(difs);
+  return "[" + String.join(",", u_toStringArray(difs)) + "]?";
 }

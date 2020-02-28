@@ -12,7 +12,7 @@ abstract class Interface
   void superIterate()
   {
     handleInput();
-    util.resetKeys();
+    u_resetKeys();
     iterate();
   }
   

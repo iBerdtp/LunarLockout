@@ -45,9 +45,9 @@ class SelectPuzzleInterface extends Interface
   {
     background(75);
     if(boardType == SQUARE)
-      util.showSquareBoard(currentOption, borderSize);
+      u_showSquareBoard(currentOption, borderSize);
     else if(boardType == HEX)
-      util.showHexBoard(currentOption, borderSize);
+      u_showHexBoard(currentOption, borderSize);
   }
   
   Board loadPuzzle(String puz)
@@ -57,7 +57,7 @@ class SelectPuzzleInterface extends Interface
     int[][] intses = new int[dim][dim];
     for(int y=0; y<dim; y++)
     {
-      int[] row = util.toIntArray(strings[1+y].split(" "));
+      int[] row = u_toIntArray(strings[1+y].split(" "));
       for(int x=0; x<dim; x++)
         intses[x][y] = row[x];
     }
@@ -65,7 +65,7 @@ class SelectPuzzleInterface extends Interface
     PVector[] goals = new PVector[nrOfGoals];
     for(int i=0; i<nrOfGoals; i++)
     {
-      int[] coordinates = util.toIntArray(strings[dim+2+i].split(" "));
+      int[] coordinates = u_toIntArray(strings[dim+2+i].split(" "));
       goals[i] = new PVector(coordinates[0], coordinates[1]);
     }
     return new Board(dim, goals, intses);

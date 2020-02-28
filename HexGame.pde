@@ -30,24 +30,24 @@ class HexGame extends Game
     for (int i=0; i<arrayDim; i++)
       for (int j=0; j<arrayDim; j++)
         if (selected.x == i && selected.y == j)
-        { //<>//
+        { //<>// //<>//
           noFill();
           strokeWeight(3);
           stroke(255, 255, 0);
           ellipse((i+(j-chosenDim+2f)/2)*regSquareSize, (0.5+j*sqrt(3)/2)*regSquareSize, regSquareSize, regSquareSize);
-        } //<>//
-  } //<>//
+        } //<>// //<>//
+  } //<>// //<>//
   
   void showBoard()
   {
-    util.showHexBoard(current, 0);
+    u_showHexBoard(current, 0);
   }
   
   void fillAccordingly(Board b, int nrOfGoals, int nrOfPawns)
   {
     setBoundaries(b);
-    setGoals(b, nrOfGoals); //<>//
-    setUnits(b, nrOfGoals, nrOfPawns); //<>//
+    setGoals(b, nrOfGoals); //<>// //<>//
+    setUnits(b, nrOfGoals, nrOfPawns); //<>// //<>//
   }
   
   void setBoundaries(Board b)
@@ -65,14 +65,14 @@ class HexGame extends Game
     ArrayList<PVector> possibleGoals = getPossibleSpots(b, 1);
     b.goals = new PVector[nrOfGoals];
     for(int i=0; i<nrOfGoals; i++)
-      b.goals[i] = util.getRandom(possibleGoals);
+      b.goals[i] = u_getRandom(possibleGoals);
   }
   
   void setUnits(Board b, int nrOfGoals, int nrOfPawns)
   {
     ArrayList<PVector> spots = getPossibleSpots(b, 0);
     for (int i=0; i<nrOfPawns; i++)
-      b.set(util.getRandom(spots), 2);
+      b.set(u_getRandom(spots), 2);
     for(int i=0; i<spots.size(); i++)
       for(int j=0; j<b.goals.length; j++)
         if(spots.get(i).equals(b.goals[j]))
@@ -81,7 +81,7 @@ class HexGame extends Game
           break;
         }
     for(int i=0; i<nrOfGoals; i++)
-      b.set(util.getRandom(spots), 1);
+      b.set(u_getRandom(spots), 1);
   }
   
   ArrayList<PVector> getPossibleSpots(Board b, int rimSize)
