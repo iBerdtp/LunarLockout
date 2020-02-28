@@ -1,13 +1,13 @@
 class SquareGame extends Game
 {
-  SquareGame(int dim, int nrOfGoals, int nrOfPawns, int optimal, SoundFile file, Move[] allowed, int[] moveControls, int switchControl)
+  SquareGame(Interface parentInFa, int dim, int nrOfGoals, int nrOfPawns, int optimal, SoundFile file, Move[] allowed, int[] moveControls)
   {
-    super(dim, nrOfGoals, nrOfPawns, optimal, file, allowed, moveControls, switchControl);
+    super(parentInFa, dim, nrOfGoals, nrOfPawns, optimal, file, allowed, moveControls);
   }
   
-  SquareGame(Board board, SoundFile file, Move[] allowed, int[] moveControls, int switchControl)
+  SquareGame(Interface parentInFa, Board board, SoundFile file, Move[] allowed, int[] moveControls)
   {
-    super(board, file, allowed, moveControls, switchControl);
+    super(parentInFa, board, file, allowed, moveControls);
   }
   
   void showBoard()
@@ -24,7 +24,7 @@ class SquareGame extends Game
           noFill();
           strokeWeight(3);
           stroke(255, 255, 0);
-          rect(i*squareSize, j*squareSize, squareSize, squareSize);
+          rect(i*regSquareSize, j*regSquareSize, regSquareSize, regSquareSize);
         }
   }
   
@@ -69,6 +69,11 @@ class SquareGame extends Game
   
   void setAdditional()
   {
-    surface.setSize(arrayDim*squareSize, arrayDim*squareSize);
+    resize();
+  }
+  
+  void resize()
+  {
+    surface.setSize(arrayDim*regSquareSize, arrayDim*regSquareSize);
   }
 }

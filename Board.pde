@@ -7,6 +7,7 @@ class Board //<>//
   Move lastMove;
   int depth;
   private PVector[] goals;
+  int difficulty;
   
   Board(int arrayDim)
   {
@@ -29,6 +30,11 @@ class Board //<>//
     this(arrayDim);
     this.goals = goals;
     this.board = board;
+  }
+  
+  void setDifficulty(int difficulty)
+  {
+    this.difficulty = difficulty;
   }
 
   PVector move(PVector selected, Move move)

@@ -4,6 +4,7 @@ class BFS
   ArrayList<Board> frontier;
   ArrayList<int[][]> visited;
   Board solution;
+  int checkTime;
 
   BFS(Board board, Move[] allowed)
   {
@@ -33,32 +34,32 @@ class BFS
 
   Board solution()
   {
-    if (frontier.isEmpty())
-      return null;
-    Board current = frontier.remove(0);
-    for (int i = 0; i < current.arrayDim; i++)
-      for (int j = 0; j < current.arrayDim; j++) //<>//
-        if (current.get(i, j) > 0) //<>//
-          for (Move move : allowed)
-          {
-            Board copy = current.copy();
-            copy.move(new PVector(i, j), move);
-            if (!boardVisited(copy.board))
+    this.checkTime = 0;
+    while(true)
+    {
+      if (frontier.isEmpty())
+        return null;
+      Board current = frontier.remove(0);
+      for (int i = 0; i < current.arrayDim; i++)
+        for (int j = 0; j < current.arrayDim; j++) //<>//
+          if (current.get(i, j) > 0) //<>//
+            for (Move move : allowed)
             {
-              if(copy.isWin())
-                return copy;
-              frontier.add(copy);
-              visited.add(copy.board);
+              Board copy = current.copy();
+              copy.move(new PVector(i, j), move);
+              
+              int t0 = millis();
+              int boardPos = Collections.binarySearch(visited, copy.board, comparator);
+              checkTime += millis() - t0;
+              
+              if (boardPos<0)
+              {
+                if(copy.isWin())
+                  return copy;
+                frontier.add(copy);
+                visited.add(-boardPos-1, copy.board);
+              }
             }
-          }
-    return solution();
-  }
-
-  boolean boardVisited(int[][] copy)
-  {
-    for (int[][] b : visited)
-      if (java.util.Arrays.deepEquals(copy, b))
-        return true;
-    return false;
+    }
   }
 }

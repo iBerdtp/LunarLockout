@@ -2,10 +2,11 @@ class TypeLoadInterface extends TextInterface
 {
   boolean squareExists, hexExists;
   
-  TypeLoadInterface(boolean squareExists, boolean hexExists)
+  TypeLoadInterface(Interface parentInFa, boolean squareExists, boolean hexExists)
   {
     super
     (
+      parentInFa,
       squareExists && hexExists ? "Square(1) or Hex(2)?" : squareExists ? "Square (1)" : hexExists ? "Hex (1)" : "No saves (1)"
     );
     this.squareExists = squareExists;
@@ -14,16 +15,16 @@ class TypeLoadInterface extends TextInterface
   
   void performWhenDone()
   {
-    String type;
+    int boardType;
     if(answers[0] == 1 && squareExists)
-      type = "SquareGame";
+      boardType = SQUARE;
     else if(hexExists)
-      type = "HexGame";
+      boardType = HEX;
     else
     {
       inFa = new Welcome();
       return;
     }
-    inFa = new DifficultyLoadInterface(new File(savesDir, type), type);
+    inFa = new DifficultyLoadInterface(this, new File(savesDir, boardType==SQUARE?"SquareGame":"HexGame"), boardType);
   }
 }

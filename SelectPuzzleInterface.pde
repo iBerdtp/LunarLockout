@@ -5,18 +5,28 @@ class SelectPuzzleInterface extends Interface
   String[] list;
   int currentIndex;
   Board currentOption;
-  int squareSize;
   int borderSize;
+  int boardType;
   
-  SelectPuzzleInterface(File puzzlesDir)
+  SelectPuzzleInterface(Interface parentInFa, File puzzlesDir, int boardType)
   {
+    this.parentInFa = parentInFa;
     this.puzzlesDir = puzzlesDir;
     this.puzzlesPath = puzzlesDir.getPath();
     this.list = puzzlesDir.list();
     this.currentIndex = 0;
     this.currentOption = loadPuzzle(list[currentIndex]);
-    this.squareSize = 60;
-    this.borderSize = 100;
+    this.borderSize = 50;
+    this.boardType = boardType;
+    resize();
+  }
+  
+  void resize()
+  {
+    if(boardType == SQUARE)
+      surface.setSize(5 * regSquareSize, 5 * regSquareSize);
+    else if(boardType == HEX)
+      surface.setSize(5*regSquareSize, ceil(sqrt(3)*(3-1)*regSquareSize+regSquareSize));
   }
   
   void handleInput()
@@ -27,14 +37,17 @@ class SelectPuzzleInterface extends Interface
       currentOption = loadPuzzle(list[currentIndex = (currentIndex>0?currentIndex-1:list.length-1)]);
     if(KEYS[ENTER])
       startPuzzle();
+    if(KEYS[BACKSPACE])
+      backToParent();
   }
   
   void iterate()
   {
     background(75);
-    int screenDim = 2*borderSize + currentOption.arrayDim*squareSize;
-    surface.setSize(screenDim, screenDim);
-    util.showSquareBoard(currentOption, borderSize);
+    if(boardType == SQUARE)
+      util.showSquareBoard(currentOption, borderSize);
+    else if(boardType == HEX)
+      util.showHexBoard(currentOption, borderSize);
   }
   
   Board loadPuzzle(String puz)
@@ -60,6 +73,9 @@ class SelectPuzzleInterface extends Interface
   
   void startPuzzle()
   {
-    inFa = new SquareGame(currentOption, file, new Move[]{Move.UP, Move.LEFT, Move.RIGHT, Move.DOWN}, new int[]{UP, LEFT, RIGHT, DOWN}, SHIFT);
+    if(boardType == SQUARE)
+      inFa = new SquareGame(this, currentOption, file, new Move[]{Move.UP, Move.LEFT, Move.RIGHT, Move.DOWN}, new int[]{UP, LEFT, RIGHT, DOWN});
+    else if(boardType == HEX)
+      inFa = new HexGame(this, currentOption, file, new Move[]{Move.UP, Move.LEFT, Move.DOWN_LEFT, Move.UP_RIGHT, Move.RIGHT, Move.DOWN}, new int[]{36, 37, 35, 33, 39, 34});
   }
 }

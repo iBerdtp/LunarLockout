@@ -2,7 +2,6 @@ abstract class Game extends Interface
 {
   SoundFile file;
   int arrayDim;
-  int squareSize;
   int nrOfGoals;
   int nrOfPawns;
   int optimal;
@@ -13,35 +12,35 @@ abstract class Game extends Interface
   boolean won;
   Move[] allowed;
   int[] moveControls;
-  int switchControl;
   HashMap<Integer, Move> map;
   boolean newGame;
+  boolean alreadySaved;
   
-  Game(int arrayDim, int nrOfGoals, int nrOfPawns, int optimal, SoundFile file, Move[] allowed, int[] moveControls, int switchControl)
+  private Game(Interface parentInFa, int arrayDim, SoundFile file, Move[] allowed, int[] moveControls)
   {
+    this.parentInFa = parentInFa;
     this.arrayDim = arrayDim;
-    this.squareSize = 100;
-    this.nrOfGoals = nrOfGoals;
-    this.nrOfPawns = nrOfPawns;
-    this.optimal = optimal;
     this.file = file;
     this.allowed = allowed;
     this.moveControls = moveControls;
-    this.switchControl = switchControl;
+    this.alreadySaved = true;
+  }
+  
+  Game(Interface parentInFa, int arrayDim, int nrOfGoals, int nrOfPawns, int optimal, SoundFile file, Move[] allowed, int[] moveControls)
+  {
+    this(parentInFa, arrayDim, file, allowed, moveControls);
+    this.nrOfGoals = nrOfGoals;
+    this.nrOfPawns = nrOfPawns;
+    this.optimal = optimal;
     this.newGame = true;
     setMap(moveControls, allowed);
     setAdditional();
     createNewPuzzle();
   }
   
-  Game(Board board, SoundFile file, Move[] allowed, int[] moveControls, int switchControl)
+  Game(Interface parentInFa, Board board, SoundFile file, Move[] allowed, int[] moveControls)
   {
-    this.arrayDim = board.arrayDim;
-    this.squareSize = 100;
-    this.file = file;
-    this.allowed = allowed;
-    this.moveControls = moveControls;
-    this.switchControl = switchControl;
+    this(parentInFa, board.arrayDim, file, allowed, moveControls);
     this.newGame = false;
     setMap(moveControls, allowed);
     setAdditional();
@@ -60,7 +59,7 @@ abstract class Game extends Interface
   void handleInput()
   {
     if (!won)
-      if (KEYS[switchControl])
+      if (KEYS[SHIFT] || KEYS[TAB])
         selected = current.getNext(selected);
       else
         for(int c : moveControls)
@@ -71,20 +70,28 @@ abstract class Game extends Interface
           }
   
     if (KEYS[ENTER])
-      createNewPuzzle();
+      if(newGame)
+        createNewPuzzle();
+      else
+        inFa = parentInFa;
   
     if (KEYS[BACKSPACE])
+      backToParent();
+    
+    if (KEYS['Z'])
       reset();
-      
-    if (KEYS['S'])
-      util.savePuzzle(initial, optimal, this.getClass().getName());
+    
+    if (KEYS['S'] && !alreadySaved)
+    {
+      util.savePuzzle(initial, this.getClass().getName());
+      alreadySaved = true;
+    }
   }
   
   void createNewPuzzle()
   {
-    if(!newGame)
-      return;
     initial = generate(arrayDim, nrOfGoals, nrOfPawns, optimal, allowed);
+    alreadySaved = false;
     reset();
   }
   
@@ -136,19 +143,27 @@ abstract class Game extends Interface
       tried++;
       Board board = new Board(arrayDim);
       fillAccordingly(board, nrOfGoals, nrOfPawns);
-      BFS bfs = new BFS(board, allowed); 
+      BFS bfs = new BFS(board, allowed);
+      //int t0 = millis();
       Board solution = bfs.solution();
+      //float totalTime = millis() - t0;
+      //float visitedSize = bfs.visited.size();
+      //println("totaltime: " + totalTime);
+      //println("checktime: " + bfs.checkTime);
+      //println("configurations visited: " + visitedSize);
+      //println("total time per configuration: " + totalTime/visitedSize + "\n");
       if(solution != null && !possibleDifs.hasValue(solution.depth))
       {
         possibleDifs.append(solution.depth);
         possibleDifs.sort();
         println("possible difs: " + possibleDifs);
       }
-      if (solution != null && solution.depth == optimal)
+      if (solution != null && solution.depth >= optimal)
       {
-        println("solvable in " + solution.depth);
+        println("solvable in: " + solution.depth);
         board.depth = 0;
-        println("tried " + tried);
+        board.setDifficulty(solution.depth);
+        println("tried: " + tried);
         return board;
       }
     }

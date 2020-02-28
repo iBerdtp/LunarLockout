@@ -3,49 +3,26 @@ class HexGame extends Game
   int chosenDim;
   float ellipseFactor;
   
-  HexGame(int dim, int nrOfGoals, int nrOfPawns, int optimal, SoundFile file, Move[] allowed, int[] moveControls, int switchControl)
+  HexGame(Interface parentInFa, int dim, int nrOfGoals, int nrOfPawns, int optimal, SoundFile file, Move[] allowed, int[] moveControls)
   {
-    super(dim*2-1, nrOfGoals, nrOfPawns, optimal, file, allowed, moveControls, switchControl);
+    super(parentInFa, dim*2-1, nrOfGoals, nrOfPawns, optimal, file, allowed, moveControls);
   }
   
-  HexGame(Board board, SoundFile file, Move[] allowed, int[] moveControls, int switchControl)
+  HexGame(Interface parentInFa, Board board, SoundFile file, Move[] allowed, int[] moveControls)
   {
-    super(board, file, allowed, moveControls, switchControl);
+    super(parentInFa, board, file, allowed, moveControls);
   }
   
   void setAdditional()
   {
     this.chosenDim = (arrayDim+1)/2;
-    surface.setSize(arrayDim*squareSize, ceil(sqrt(3)*(chosenDim-1)*squareSize+squareSize));
     this.ellipseFactor = 0.8;
+    resize();
   }
   
-  void showBoard()
+  void resize()
   {
-    ellipseMode(CENTER);
-    for (int i=0; i<arrayDim; i++)
-      for (int j=0; j<arrayDim; j++)
-      {
-        if(current.get(i,j) != -1)
-        {
-          fill(0);
-          for(PVector goal : current.goals)
-            if (goal.x == i && goal.y == j)
-              fill(255, 0, 0);
-          strokeWeight(1);
-          stroke(255);
-          ellipse((i+(j-chosenDim+2f)/2)*squareSize, (0.5+j*sqrt(3)/2)*squareSize, squareSize, squareSize);
-          if (current.get(i, j) == 1)
-          {
-            fill(0, 0, 255);
-            ellipse((i+(j-chosenDim+2f)/2)*squareSize, (0.5+j*sqrt(3)/2)*squareSize, ellipseFactor*squareSize, ellipseFactor*squareSize);
-          } else if (current.get(i, j) > 1)
-          {
-            fill(0, 255, 0);
-            ellipse((i+(j-chosenDim+2f)/2)*squareSize, (0.5+j*sqrt(3)/2)*squareSize, ellipseFactor*squareSize, ellipseFactor*squareSize);
-          }
-        }
-      }
+    surface.setSize(arrayDim*regSquareSize, ceil(sqrt(3)*(chosenDim-1)*regSquareSize+regSquareSize));
   }
   
   void showSelected()
@@ -57,9 +34,14 @@ class HexGame extends Game
           noFill();
           strokeWeight(3);
           stroke(255, 255, 0);
-          ellipse((i+(j-chosenDim+2f)/2)*squareSize, (0.5+j*sqrt(3)/2)*squareSize, squareSize, squareSize);
+          ellipse((i+(j-chosenDim+2f)/2)*regSquareSize, (0.5+j*sqrt(3)/2)*regSquareSize, regSquareSize, regSquareSize);
         } //<>//
-  } //<>// //<>//
+  } //<>//
+  
+  void showBoard()
+  {
+    util.showHexBoard(current, 0);
+  }
   
   void fillAccordingly(Board b, int nrOfGoals, int nrOfPawns)
   {

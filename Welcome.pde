@@ -4,6 +4,7 @@ class Welcome extends TextInterface
   {
     super
     (
+      null,
       "New Game (1) or Load (2)?"
     );
   }
@@ -11,8 +12,13 @@ class Welcome extends TextInterface
   void performWhenDone()
   {
     if(answers[0] == 1)
-      inFa = new NewGameInterface();
+      inFa = new NewGameInterface(this);
     else
-      inFa = new TypeLoadInterface(new File(savesDir, "SquareGame").exists(), new File(savesDir, "HexGame").exists());
+      inFa = new TypeLoadInterface(this, new File(savesDir, "SquareGame").exists(), new File(savesDir, "HexGame").exists());
+  }
+  
+  String toString()
+  {
+    return "Welcome";
   }
 } //<>//

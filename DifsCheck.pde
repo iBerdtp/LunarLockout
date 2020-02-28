@@ -23,7 +23,7 @@ class DifsCheck
     PVector[] possibleSpots = getPossibleSpots();
     int nrOfPosSpots = possibleSpots.length;
     //hoeft maar alleen deze 3
-    PVector[] possibleGoals = new PVector[]{new PVector(2, 2), new PVector(2, 1), new PVector(1, 1)};
+    PVector[] possibleGoals = {new PVector(2, 2), new PVector(2, 1), new PVector(1, 1)};
     int nrOfPosGoals = possibleGoals.length;
     int counter = 0;
     while(true)

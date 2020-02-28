@@ -6,15 +6,21 @@ abstract class TextInterface extends Interface
   String text;
   int index;
   
-  TextInterface(String... questions)
+  TextInterface(Interface parentInFa, String... questions)
   {
-    textSize = 32;
+    this.parentInFa = parentInFa;
+    this.textSize = 32;
     textSize(textSize);
     this.questions = questions;
+    resize();
+    this.answers = new int[questions.length];
+    this.text = "";
+    this.index = 0;
+  }
+  
+  void resize()
+  {
     surface.setSize(500, max(4, (questions.length + 2)) * textSize);
-    answers = new int[questions.length];
-    text = "";
-    index = 0;
   }
   
   void handleInput()
@@ -30,17 +36,24 @@ abstract class TextInterface extends Interface
         if(KEYS[i])
           text += i-48;
       if(KEYS[BACKSPACE])
+      {
         if(!text.equals(""))
           text = "";
         else if(index>0)
           index--;
+        else if(parentInFa != null)
+          backToParent();
+      }
     }
   }
   
   void iterate()
   {
     if(index == questions.length)
+    {
       performWhenDone();
+      index--;
+    }
     else
     {
       fill(255);

@@ -1,3 +1,5 @@
+// contains all functions that (possibly) need to be accessible from multiple classes. Can't be made static for reasons unknown to me.
+
 class Util
 { 
   PVector getRandom(ArrayList<PVector> vectors)
@@ -26,10 +28,18 @@ class Util
     return ints;
   }
   
-  void savePuzzle(Board initial, int optimal, String type)
+  void savePuzzle(Board initial, String type)
   {
-    File dir = new File(savesPath + type.substring(18) + "\\" + optimal);
-    String fileName = dir.getPath() + "\\" + (dir.isDirectory() ? dir.list().length : 0) + ".puz";
+    File dir = new File(savesPath + type.substring(18) + "\\" + initial.difficulty);
+    String fileName = dir.getPath() + "\\";
+    if(dir.isDirectory() && dir.list().length > 0)
+    {
+      String[] list = dir.list();
+      fileName += Integer.parseInt(list[list.length-1].substring(0,1))+1;
+    }
+    else
+      fileName += 0;
+    fileName += ".puz";
     PVector[] goals = initial.getGoals();
     PrintWriter output = createWriter(fileName);
     
@@ -62,6 +72,37 @@ class Util
           drawPionnetje(0, 0, 255, borderSize, squareSize, i, j);
         else if (current.get(i, j) > 1)
           drawPionnetje(0, 255, 0, borderSize, squareSize, i, j);
+      }
+  }
+  
+  void showHexBoard(Board current, int borderSize)
+  {
+    int arrayDim = current.getDim();
+    int chosenDim = (arrayDim+1)/2;
+    int squareSize = (width-2*borderSize)/arrayDim;
+    ellipseMode(CENTER);
+    for (int i=0; i<arrayDim; i++)
+      for (int j=0; j<arrayDim; j++)
+      {
+        if(current.get(i,j) != -1)
+        {
+          fill(0);
+          for(PVector goal : current.goals)
+            if (goal.x == i && goal.y == j)
+              fill(255, 0, 0);
+          strokeWeight(1);
+          stroke(255);
+          ellipse(borderSize+(i+(j-chosenDim+2f)/2)*squareSize, borderSize+(0.5+j*sqrt(3)/2)*squareSize, squareSize, squareSize);
+          if (current.get(i, j) == 1)
+          {
+            fill(0, 0, 255);
+            ellipse(borderSize+(i+(j-chosenDim+2f)/2)*squareSize, borderSize+(0.5+j*sqrt(3)/2)*squareSize, ellipseFactor*squareSize, ellipseFactor*squareSize);
+          } else if (current.get(i, j) > 1)
+          {
+            fill(0, 255, 0);
+            ellipse(borderSize+(i+(j-chosenDim+2f)/2)*squareSize, borderSize+(0.5+j*sqrt(3)/2)*squareSize, ellipseFactor*squareSize, ellipseFactor*squareSize);
+          }
+        }
       }
   }
   
