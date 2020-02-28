@@ -29,7 +29,6 @@ void mousePressed()
   redraw();
 }
 
-
 SoundFile file;
 Interface inFa;
 boolean[] KEYS;

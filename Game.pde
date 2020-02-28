@@ -138,9 +138,13 @@ abstract class Game extends Interface
   {
     IntList possibleDifs = new IntList();
     int tried = 0;
+    int t0 = millis();
     while (true)
     {
       tried++;
+      if(tried==10000)
+        println((millis() - t0)/1000f);
+      // square 5x5 goals 3 pawns 3: 37.061 s
       Board board = new Board(arrayDim);
       fillAccordingly(board, nrOfGoals, nrOfPawns);
       BFS bfs = new BFS(board, allowed);
