@@ -9,7 +9,7 @@ class DifficultyLoadInterface extends TextInterface
     super
     (
       parentInFa,
-      "What difficulty (" + String.join(", ", typeDir.list()) + ")?"
+      "[" + String.join(",", typeDir.list()) + "]?"
     );
     this.typeDir = typeDir;
     this.boardType = boardType;
