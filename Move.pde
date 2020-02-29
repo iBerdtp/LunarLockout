@@ -1,6 +1,6 @@
 enum Move
 {
-  UP(0,-1, "U"),UP_RIGHT(1,-1,"UL"),LEFT(-1,0, "L"),RIGHT(1,0, "R"),DOWN_LEFT(-1,1,"DR"),DOWN(0,1, "D");
+  UP(0,-1,"U"),UP_LEFT(-1,-1,"UL"),UP_RIGHT(1,-1,"UR"),LEFT(-1,0,"L"),RIGHT(1,0,"R"),DOWN_LEFT(-1,1,"DL"),DOWN_RIGHT(1,1,"DR"),DOWN(0,1,"D");
  
   private PVector v;
   private String string;

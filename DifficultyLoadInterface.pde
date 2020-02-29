@@ -1,15 +1,15 @@
 class DifficultyLoadInterface extends TextInterface
 {
   File typeDir;
-  int boardType;
+  BoardType boardType;
   int[] difficulties;
   
-  DifficultyLoadInterface(Interface parentInFa, File typeDir, int boardType)
+  DifficultyLoadInterface(Interface parentInFa, File typeDir, BoardType boardType)
   {
     super
     (
       parentInFa,
-      getLine(typeDir)
+      DLI_getLine(typeDir)
     );
     this.typeDir = typeDir;
     this.boardType = boardType;
@@ -26,7 +26,7 @@ class DifficultyLoadInterface extends TextInterface
   }
 }
 
-String getLine(File typeDir)
+String DLI_getLine(File typeDir)
 {
   int[] difs = u_toIntArray(typeDir.list());
   Arrays.sort(difs);

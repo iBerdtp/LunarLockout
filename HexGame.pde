@@ -30,13 +30,13 @@ class HexGame extends Game
     for (int i=0; i<arrayDim; i++)
       for (int j=0; j<arrayDim; j++)
         if (selected.x == i && selected.y == j)
-        { //<>// //<>//
+        { //<>//
           noFill();
           strokeWeight(3);
           stroke(255, 255, 0);
           ellipse((i+(j-chosenDim+2f)/2)*regSquareSize, (0.5+j*sqrt(3)/2)*regSquareSize, regSquareSize, regSquareSize);
-        } //<>// //<>//
-  } //<>// //<>//
+        } //<>//
+  } //<>//
   
   void showBoard()
   {
@@ -46,8 +46,8 @@ class HexGame extends Game
   void fillAccordingly(Board b, int nrOfGoals, int nrOfPawns)
   {
     setBoundaries(b);
-    setGoals(b, nrOfGoals); //<>// //<>//
-    setUnits(b, nrOfGoals, nrOfPawns); //<>// //<>//
+    setGoals(b, nrOfGoals); //<>//
+    setUnits(b, nrOfGoals, nrOfPawns); //<>//
   }
   
   void setBoundaries(Board b)

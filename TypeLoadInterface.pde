@@ -1,30 +1,34 @@
 class TypeLoadInterface extends TextInterface
 {
-  boolean squareExists, hexExists;
-  
-  TypeLoadInterface(Interface parentInFa, boolean squareExists, boolean hexExists)
+  TypeLoadInterface(Interface parentInFa)
   {
     super
     (
       parentInFa,
-      squareExists && hexExists ? "Square(1) or Hex(2)?" : squareExists ? "Square (1)" : hexExists ? "Hex (1)" : "No saves (1)"
+      TLI_getLine()
     );
-    this.squareExists = squareExists;
-    this.hexExists = hexExists;
   }
   
   void performWhenDone()
   {
-    int boardType;
-    if(answers[0] == 1 && squareExists)
-      boardType = SQUARE;
-    else if(hexExists)
-      boardType = HEX;
-    else
+    String[] options = savesDir.exists()?savesDir.list():null;
+    if(options == null)
     {
       inFa = new Welcome();
       return;
     }
-    inFa = new DifficultyLoadInterface(this, new File(savesDir, boardType==SQUARE?"SquareGame":"HexGame"), boardType);
+    inFa = new DifficultyLoadInterface(this, new File(savesDir, options[answers[0]-1]), BoardType.toType(options[answers[0]-1]));
   }
+}
+
+static String TLI_getLine()
+{
+  String[] options;
+  if(!savesDir.exists() || (options=savesDir.list()).length == 0)
+    return "No saves (1)";
+  StringBuilder sb = new StringBuilder();
+  for(int i=0; i<options.length; i++)
+    sb.append((i==0?"":" or ")+options[i].substring(0,options[i].length()-4)+"("+(i+1)+")");
+  sb.append("?");
+  return sb.toString();
 }

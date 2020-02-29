@@ -14,11 +14,6 @@ class Welcome extends TextInterface
     if(answers[0] == 1)
       inFa = new NewGameInterface(this);
     else
-      inFa = new TypeLoadInterface(this, new File(savesDir, "SquareGame").exists(), new File(savesDir, "HexGame").exists());
+      inFa = new TypeLoadInterface(this);
   }
-  
-  String toString()
-  {
-    return "Welcome";
-  }
-} //<>//
+}

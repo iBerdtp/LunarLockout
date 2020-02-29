@@ -32,12 +32,10 @@ void mousePressed()
 SoundFile file;
 Interface inFa;
 boolean[] KEYS;
-final String savesPath = "C:\\Users\\Bert\\Documents\\PROCESSING\\PROJECJES\\puzeltjeNextLevel\\saves\\";
-final File savesDir = new File(savesPath);
-final float ellipseFactor = 0.8;
-final int regSquareSize = 100;
-final int SQUARE = 0;
-final int HEX = 1;
+final static String savesPath = "C:\\Users\\Bert\\Documents\\PROCESSING\\PROJECJES\\puzeltjeNextLevel\\saves\\";
+final static File savesDir = new File(savesPath);
+final static float ellipseFactor = 0.8;
+final static int regSquareSize = 100;
 
 final Comparator<int[][]> comparator = new Comparator<int[][]>()
 {

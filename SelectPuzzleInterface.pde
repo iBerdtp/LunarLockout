@@ -6,9 +6,9 @@ class SelectPuzzleInterface extends Interface
   int currentIndex;
   Board currentOption;
   int borderSize;
-  int boardType;
+  BoardType boardType;
   
-  SelectPuzzleInterface(Interface parentInFa, File puzzlesDir, int boardType)
+  SelectPuzzleInterface(Interface parentInFa, File puzzlesDir, BoardType boardType)
   {
     this.parentInFa = parentInFa;
     this.puzzlesDir = puzzlesDir;
@@ -23,9 +23,9 @@ class SelectPuzzleInterface extends Interface
   
   void resize()
   {
-    if(boardType == SQUARE)
+    if(boardType == BoardType.SQUARE)
       surface.setSize(5 * regSquareSize, 5 * regSquareSize);
-    else if(boardType == HEX)
+    else if(boardType == BoardType.HEX)
       surface.setSize(5*regSquareSize, ceil(sqrt(3)*(3-1)*regSquareSize+regSquareSize));
   }
   
@@ -44,9 +44,9 @@ class SelectPuzzleInterface extends Interface
   void iterate()
   {
     background(75);
-    if(boardType == SQUARE)
+    if(boardType == BoardType.SQUARE)
       u_showSquareBoard(currentOption, borderSize);
-    else if(boardType == HEX)
+    else if(boardType == BoardType.HEX)
       u_showHexBoard(currentOption, borderSize);
   }
   
@@ -73,9 +73,9 @@ class SelectPuzzleInterface extends Interface
   
   void startPuzzle()
   {
-    if(boardType == SQUARE)
+    if(boardType == BoardType.SQUARE)
       inFa = new SquareGame(this, currentOption, file, new Move[]{Move.UP, Move.LEFT, Move.RIGHT, Move.DOWN}, new int[]{UP, LEFT, RIGHT, DOWN});
-    else if(boardType == HEX)
+    else if(boardType == BoardType.HEX)
       inFa = new HexGame(this, currentOption, file, new Move[]{Move.UP, Move.LEFT, Move.DOWN_LEFT, Move.UP_RIGHT, Move.RIGHT, Move.DOWN}, new int[]{36, 37, 35, 33, 39, 34});
   }
 }
