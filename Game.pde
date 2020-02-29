@@ -1,6 +1,6 @@
 abstract class Game extends Interface
 {
-  SoundFile file;
+  GameType gameType;
   int arrayDim;
   int nrOfGoals;
   int nrOfPawns;
@@ -15,20 +15,22 @@ abstract class Game extends Interface
   HashMap<Integer, Move> map;
   boolean newGame;
   boolean alreadySaved;
+  IntList possibleDifs;
   
-  private Game(Interface parentInFa, int arrayDim, SoundFile file, Move[] allowed, int[] moveControls)
+  private Game(Interface parentInFa, GameType gameType, int arrayDim)
   {
     this.parentInFa = parentInFa;
+    this.gameType = gameType;
     this.arrayDim = arrayDim;
-    this.file = file;
-    this.allowed = allowed;
-    this.moveControls = moveControls;
+    this.allowed = gameType.getAllowed();
+    this.moveControls = gameType.getMoveControls();
     this.alreadySaved = true;
+    this.possibleDifs = new IntList();
   }
   
-  Game(Interface parentInFa, int arrayDim, int nrOfGoals, int nrOfPawns, int optimal, SoundFile file, Move[] allowed, int[] moveControls)
+  Game(Interface parentInFa, GameType gameType, int arrayDim, int nrOfGoals, int nrOfPawns, int optimal)
   {
-    this(parentInFa, arrayDim, file, allowed, moveControls);
+    this(parentInFa, gameType, arrayDim);
     this.nrOfGoals = nrOfGoals;
     this.nrOfPawns = nrOfPawns;
     this.optimal = optimal;
@@ -38,9 +40,9 @@ abstract class Game extends Interface
     createNewPuzzle();
   }
   
-  Game(Interface parentInFa, Board board, SoundFile file, Move[] allowed, int[] moveControls)
+  Game(Interface parentInFa, GameType gameType, Board board)
   {
-    this(parentInFa, board.arrayDim, file, allowed, moveControls);
+    this(parentInFa, gameType, board.arrayDim);
     this.newGame = false;
     setMap(moveControls, allowed);
     setAdditional();
@@ -49,8 +51,13 @@ abstract class Game extends Interface
   
   void iterate()
   {
-    background(75);
-    showBoard();
+    background(textBackground);
+    gameStuff();
+  }
+  
+  void gameStuff()
+  {
+    u_showBoard(gameType, current, 0);
     showSelected();
     if(!won)
       checkForWin();
@@ -83,7 +90,7 @@ abstract class Game extends Interface
     
     if (KEYS['S'] && !alreadySaved)
     {
-      u_savePuzzle(initial, this.getClass().getName());
+      u_savePuzzle(initial, gameType);
       alreadySaved = true;
     }
   }
@@ -136,16 +143,17 @@ abstract class Game extends Interface
 
   Board generate(int arrayDim, int nrOfGoals, int nrOfPawns, int optimal, Move[] allowed)
   {
-    IntList possibleDifs = new IntList();
+    println();
     int tried = 0;
-    //int t0 = millis();
+    int t0 = millis();
+    int checkLimit = 10000;
     while (true)
     {
       tried++;
-      //if(tried==10000)
-      //  println((millis() - t0)/1000f);
+      if(tried==checkLimit)
+        println("tried "+checkLimit+" in "+(millis() - t0)/1000f+"s");
       //// square 5x5 goals 3 pawns 3: 37.061 s
-      Board board = new Board(arrayDim);
+      Board board = new Board(gameType, arrayDim);
       fillAccordingly(board, nrOfGoals, nrOfPawns);
       BFS bfs = new BFS(board, allowed);
       //int t0 = millis();
@@ -164,10 +172,10 @@ abstract class Game extends Interface
       }
       if (solution != null && solution.depth >= optimal)
       {
+        println("tried: " + tried);
         println("solvable in: " + solution.depth);
         board.depth = 0;
         board.setDifficulty(solution.depth);
-        println("tried: " + tried);
         return board;
       }
     }
@@ -175,13 +183,18 @@ abstract class Game extends Interface
   
   Board randomBoard(int dim, int nrOfGoals, int nrOfPawns)
   {
-    Board b = new Board(dim);
+    Board b = new Board(gameType, dim);
     fillAccordingly(b, nrOfGoals, nrOfPawns);
     return b;
   }
   
+  void printLooking()
+  {
+    textAlign(CENTER,CENTER);
+    text("Looking for match...\nFound puzzles in range:\n[",width/2,height/2);
+  }
+  
   abstract void setAdditional();
   abstract void fillAccordingly(Board b, int nrOfGoals, int nrOfPawns);
-  abstract void showBoard();
   abstract void showSelected();
 }

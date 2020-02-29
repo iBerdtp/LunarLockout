@@ -6,9 +6,9 @@ class SelectPuzzleInterface extends Interface
   int currentIndex;
   Board currentOption;
   int borderSize;
-  BoardType boardType;
+  GameType gameType;
   
-  SelectPuzzleInterface(Interface parentInFa, File puzzlesDir, BoardType boardType)
+  SelectPuzzleInterface(Interface parentInFa, File puzzlesDir, GameType gameType)
   {
     this.parentInFa = parentInFa;
     this.puzzlesDir = puzzlesDir;
@@ -17,15 +17,15 @@ class SelectPuzzleInterface extends Interface
     this.currentIndex = 0;
     this.currentOption = loadPuzzle(list[currentIndex]);
     this.borderSize = 50;
-    this.boardType = boardType;
+    this.gameType = gameType;
     resize();
   }
   
   void resize()
   {
-    if(boardType == BoardType.SQUARE)
+    if(gameType == GameType.SQUARE || gameType == GameType.DIAGONAL)
       surface.setSize(5 * regSquareSize, 5 * regSquareSize);
-    else if(boardType == BoardType.HEX)
+    else if(gameType == GameType.HEX)
       surface.setSize(5*regSquareSize, ceil(sqrt(3)*(3-1)*regSquareSize+regSquareSize));
   }
   
@@ -43,11 +43,8 @@ class SelectPuzzleInterface extends Interface
   
   void iterate()
   {
-    background(75);
-    if(boardType == BoardType.SQUARE)
-      u_showSquareBoard(currentOption, borderSize);
-    else if(boardType == BoardType.HEX)
-      u_showHexBoard(currentOption, borderSize);
+    background(textBackground);
+    u_showBoard(gameType, currentOption, borderSize);
   }
   
   Board loadPuzzle(String puz)
@@ -68,14 +65,16 @@ class SelectPuzzleInterface extends Interface
       int[] coordinates = u_toIntArray(strings[dim+2+i].split(" "));
       goals[i] = new PVector(coordinates[0], coordinates[1]);
     }
-    return new Board(dim, goals, intses);
+    return new Board(gameType, dim, goals, intses);
   }
   
   void startPuzzle()
   {
-    if(boardType == BoardType.SQUARE)
-      inFa = new SquareGame(this, currentOption, file, new Move[]{Move.UP, Move.LEFT, Move.RIGHT, Move.DOWN}, new int[]{UP, LEFT, RIGHT, DOWN});
-    else if(boardType == BoardType.HEX)
-      inFa = new HexGame(this, currentOption, file, new Move[]{Move.UP, Move.LEFT, Move.DOWN_LEFT, Move.UP_RIGHT, Move.RIGHT, Move.DOWN}, new int[]{36, 37, 35, 33, 39, 34});
+    if(gameType == GameType.SQUARE)
+      inFa = new SquareGame(this, GameType.SQUARE, currentOption);
+    else if(gameType == GameType.HEX)
+      inFa = new HexGame(this, currentOption);
+    else if(gameType == GameType.DIAGONAL)
+      inFa = new SquareGame(this, GameType.DIAGONAL, currentOption);
   }
 }

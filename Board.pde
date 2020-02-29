@@ -1,5 +1,6 @@
 class Board //<>//
 {
+  GameType gameType;
   private int arrayDim;
   private int[][] board;
   Board parent;
@@ -9,15 +10,16 @@ class Board //<>//
   private PVector[] goals;
   int difficulty;
   
-  Board(int arrayDim)
+  Board(GameType gameType, int arrayDim)
   {
+    this.gameType = gameType;
     this.arrayDim = arrayDim;
     this.board = new int[arrayDim][arrayDim];
   }
   
-  Board(int arrayDim, PVector[] goals, PVector[] pawns, PVector[] blues)
+  Board(GameType gameType, int arrayDim, PVector[] goals, PVector[] pawns, PVector[] blues)
   {
-    this(arrayDim);
+    this(gameType, arrayDim);
     this.goals = goals;
     for(PVector v : pawns)
       set(v, 2);
@@ -25,9 +27,9 @@ class Board //<>//
       set(v, 1);
   }
   
-  Board(int arrayDim, PVector goals[], int[][] board)
+  Board(GameType gameType, int arrayDim, PVector goals[], int[][] board)
   {
-    this(arrayDim);
+    this(gameType, arrayDim);
     this.goals = goals;
     this.board = board;
   }
@@ -117,7 +119,7 @@ class Board //<>//
   
   Board copy()
   {
-    Board b = new Board(this.arrayDim);
+    Board b = new Board(this.gameType, this.arrayDim);
     for (int i = 0; i < b.arrayDim; i++)
       for (int j = 0; j < b.arrayDim; j++)
         b.set(i, j, get(i, j));

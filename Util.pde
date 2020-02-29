@@ -34,9 +34,9 @@ String[] u_toStringArray(int[] ints)
   return strings;
 }
 
-void u_savePuzzle(Board initial, String type)
+void u_savePuzzle(Board initial, GameType gameType)
 {
-  File dir = new File(savesPath + type.substring(18) + "\\" + initial.difficulty);
+  File dir = new File(savesPath + gameType + "\\" + initial.difficulty);
   String fileName = dir.getPath() + "\\";
   if(dir.isDirectory() && dir.list().length > 0)
   {
@@ -57,6 +57,14 @@ void u_savePuzzle(Board initial, String type)
   output.close();
   
   println("saved to: " + fileName);
+}
+
+void u_showBoard(GameType gameType, Board current, int borderSize)
+{
+  if(gameType == GameType.SQUARE || gameType == GameType.DIAGONAL)
+    u_showSquareBoard(current, borderSize);
+  else if(gameType == GameType.HEX)
+    u_showHexBoard(current, borderSize);
 }
 
 void u_showSquareBoard(Board current, int borderSize)

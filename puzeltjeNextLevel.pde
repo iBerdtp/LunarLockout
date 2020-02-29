@@ -7,8 +7,8 @@ void setup()
 {
   size(500, 500);
   u_resetKeys();
-  file = new SoundFile(this, "zelda.mp3");
   inFa = new Welcome();
+  file = new SoundFile(this, "zelda.mp3");
 }
 
 void draw()
@@ -29,13 +29,14 @@ void mousePressed()
   redraw();
 }
 
-SoundFile file;
 Interface inFa;
 boolean[] KEYS;
+SoundFile file; // can't be final because the path isn't yet defined
 final static String savesPath = "C:\\Users\\Bert\\Documents\\PROCESSING\\PROJECJES\\puzeltjeNextLevel\\saves\\";
 final static File savesDir = new File(savesPath);
 final static float ellipseFactor = 0.8;
 final static int regSquareSize = 100;
+final static int textBackground = 75;
 
 final Comparator<int[][]> comparator = new Comparator<int[][]>()
 {

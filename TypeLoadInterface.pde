@@ -17,7 +17,7 @@ class TypeLoadInterface extends TextInterface
       inFa = new Welcome();
       return;
     }
-    inFa = new DifficultyLoadInterface(this, new File(savesDir, options[answers[0]-1]), BoardType.toType(options[answers[0]-1]));
+    inFa = new DifficultyLoadInterface(this, new File(savesDir, options[answers[0]-1]), GameType.toType(options[answers[0]-1]));
   }
 }
 
@@ -28,7 +28,7 @@ static String TLI_getLine()
     return "No saves (1)";
   StringBuilder sb = new StringBuilder();
   for(int i=0; i<options.length; i++)
-    sb.append((i==0?"":" or ")+options[i].substring(0,options[i].length()-4)+"("+(i+1)+")");
+    sb.append((i==0?"":" or ")+options[i]+"("+(i+1)+")");
   sb.append("?");
   return sb.toString();
 }

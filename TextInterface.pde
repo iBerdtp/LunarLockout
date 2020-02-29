@@ -20,7 +20,7 @@ abstract class TextInterface extends Interface
   
   void resize()
   {
-    surface.setSize(500, max(4, (questions.length + 2)) * textSize);
+    surface.setSize(600, max(4, (questions.length + 2)) * textSize);
   }
   
   void handleInput()
@@ -57,7 +57,7 @@ abstract class TextInterface extends Interface
     else
     {
       fill(255);
-      background(75);
+      background(textBackground);
       if(focused)
       {
         printAnswered();

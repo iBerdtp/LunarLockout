@@ -32,7 +32,7 @@ class DifsCheck
       PVector[] goals = getUnits(nrOfGoals, goalPositions, possibleGoals);
       PVector[] pawns = getUnits(nrOfPawns+nrOfGoals, allPositions, possibleSpots);
       PVector[] blues = getUnits(nrOfGoals, bluePositions, pawns);
-      Board b = new Board(dim, goals, pawns, blues);
+      Board b = new Board(GameType.SQUARE, dim, goals, pawns, blues);
       int dif = getDif(b, maxDif);
       if(dif >= maxDif)
       {

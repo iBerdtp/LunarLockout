@@ -5,7 +5,7 @@ class NewGameInterface extends TextInterface
     super
     (
       parentInFa,
-      "Square(1) or Hex(2)?",
+      "Square(1), Hex(2) or Diagonal(3)?",
       "Size?",
       "Number of goals?",
       "Number of pawns?",
@@ -21,8 +21,10 @@ class NewGameInterface extends TextInterface
   void openGame(int type, int dim, int nrOfGoals, int nrOfPawns, int optimal)
   {
     if(type == 1)
-      inFa = new SquareGame(this, dim, nrOfGoals, nrOfPawns, optimal, file, new Move[]{Move.UP, Move.LEFT, Move.RIGHT, Move.DOWN}, new int[]{UP, LEFT, RIGHT, DOWN});
+      inFa = new SquareGame(this, GameType.SQUARE, dim, nrOfGoals, nrOfPawns, optimal);
+    else if(type == 2)
+      inFa = new HexGame(this, dim, nrOfGoals, nrOfPawns, optimal);
     else
-      inFa = new HexGame(this, dim, nrOfGoals, nrOfPawns, optimal, file, new Move[]{Move.UP, Move.LEFT, Move.DOWN_LEFT, Move.UP_RIGHT, Move.RIGHT, Move.DOWN}, new int[]{36, 37, 35, 33, 39, 34});
+      inFa = new SquareGame(this, GameType.DIAGONAL, dim, nrOfGoals, nrOfPawns, optimal);
   }
 }

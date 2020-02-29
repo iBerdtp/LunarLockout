@@ -60,6 +60,6 @@ class BFS
                 visited.add(-boardPos-1, copy.board);
               }
             }
-    } //<>// //<>//
+    } //<>//
   }
 }

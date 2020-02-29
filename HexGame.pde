@@ -3,14 +3,14 @@ class HexGame extends Game
   int chosenDim;
   float ellipseFactor;
   
-  HexGame(Interface parentInFa, int dim, int nrOfGoals, int nrOfPawns, int optimal, SoundFile file, Move[] allowed, int[] moveControls)
+  HexGame(Interface parentInFa, int dim, int nrOfGoals, int nrOfPawns, int optimal)
   {
-    super(parentInFa, dim*2-1, nrOfGoals, nrOfPawns, optimal, file, allowed, moveControls);
+    super(parentInFa, GameType.HEX, dim*2-1, nrOfGoals, nrOfPawns, optimal);
   }
   
-  HexGame(Interface parentInFa, Board board, SoundFile file, Move[] allowed, int[] moveControls)
+  HexGame(Interface parentInFa, Board board)
   {
-    super(parentInFa, board, file, allowed, moveControls);
+    super(parentInFa, GameType.HEX, board);
   }
   
   void setAdditional()
@@ -37,11 +37,6 @@ class HexGame extends Game
           ellipse((i+(j-chosenDim+2f)/2)*regSquareSize, (0.5+j*sqrt(3)/2)*regSquareSize, regSquareSize, regSquareSize);
         } //<>//
   } //<>//
-  
-  void showBoard()
-  {
-    u_showHexBoard(current, 0);
-  }
   
   void fillAccordingly(Board b, int nrOfGoals, int nrOfPawns)
   {

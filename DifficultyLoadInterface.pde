@@ -1,10 +1,10 @@
 class DifficultyLoadInterface extends TextInterface
 {
   File typeDir;
-  BoardType boardType;
+  GameType gameType;
   int[] difficulties;
   
-  DifficultyLoadInterface(Interface parentInFa, File typeDir, BoardType boardType)
+  DifficultyLoadInterface(Interface parentInFa, File typeDir, GameType gameType)
   {
     super
     (
@@ -12,7 +12,7 @@ class DifficultyLoadInterface extends TextInterface
       DLI_getLine(typeDir)
     );
     this.typeDir = typeDir;
-    this.boardType = boardType;
+    this.gameType = gameType;
     this.difficulties = u_toIntArray(typeDir.list());
   }
   
@@ -20,9 +20,14 @@ class DifficultyLoadInterface extends TextInterface
   {
     int answer = answers[0];
     if(u_contains(difficulties, answer))
-      inFa = new SelectPuzzleInterface(this, new File(typeDir, Integer.toString(answer)), boardType);
+      inFa = new SelectPuzzleInterface(this, new File(typeDir, Integer.toString(answer)), gameType);
     else
-      inFa = new DifficultyLoadInterface(this, typeDir, boardType);
+      inFa = new DifficultyLoadInterface(this, typeDir, gameType);
+  }
+  
+  void resize()
+  {
+    surface.setSize(1000, max(4, (questions.length + 2)) * textSize);
   }
 }
 

@@ -1,18 +1,13 @@
 class SquareGame extends Game
 {
-  SquareGame(Interface parentInFa, int dim, int nrOfGoals, int nrOfPawns, int optimal, SoundFile file, Move[] allowed, int[] moveControls)
+  SquareGame(Interface parentInFa, GameType gameType, int dim, int nrOfGoals, int nrOfPawns, int optimal)
   {
-    super(parentInFa, dim, nrOfGoals, nrOfPawns, optimal, file, allowed, moveControls);
+    super(parentInFa, gameType, dim, nrOfGoals, nrOfPawns, optimal);
   }
   
-  SquareGame(Interface parentInFa, Board board, SoundFile file, Move[] allowed, int[] moveControls)
+  SquareGame(Interface parentInFa, GameType gameType, Board board)
   {
-    super(parentInFa, board, file, allowed, moveControls);
-  }
-  
-  void showBoard()
-  {
-    u_showSquareBoard(current, 0);
+    super(parentInFa, gameType, board);
   }
 
   void showSelected()
