@@ -61,6 +61,7 @@ void u_savePuzzle(Board initial, GameType gameType)
 
 void u_showBoard(GameType gameType, Board current, int borderSize)
 {
+  strokeWeight(2);
   if(gameType == GameType.SQUARE || gameType == GameType.DIAGONAL)
     u_showSquareBoard(current, borderSize);
   else if(gameType == GameType.HEX)
@@ -79,8 +80,7 @@ void u_showSquareBoard(Board current, int borderSize)
       for(PVector goal : current.goals)
         if (goal.x == i && goal.y == j)
           fill(255, 0, 0);
-      strokeWeight(1);
-      stroke(255);
+      stroke(textBackground);
       rect(borderSize+i*squareSize, borderSize+j*squareSize, squareSize, squareSize);
       if (current.get(i, j) == 1)
         u_drawPionnetje(0, 0, 255, borderSize, squareSize, i, j);
@@ -91,10 +91,10 @@ void u_showSquareBoard(Board current, int borderSize)
 
 void u_showHexBoard(Board current, int borderSize)
 {
+  ellipseMode(CENTER);
   int arrayDim = current.getDim();
   int chosenDim = (arrayDim+1)/2;
   int squareSize = (width-2*borderSize)/arrayDim;
-  ellipseMode(CENTER);
   for (int i=0; i<arrayDim; i++)
     for (int j=0; j<arrayDim; j++)
     {
@@ -104,15 +104,16 @@ void u_showHexBoard(Board current, int borderSize)
         for(PVector goal : current.goals)
           if (goal.x == i && goal.y == j)
             fill(255, 0, 0);
-        strokeWeight(1);
-        stroke(255);
+        stroke(textBackground);
         ellipse(borderSize+(i+(j-chosenDim+2f)/2)*squareSize, borderSize+(0.5+j*sqrt(3)/2)*squareSize, squareSize, squareSize);
         if (current.get(i, j) == 1)
         {
+          noStroke();
           fill(0, 0, 255);
           ellipse(borderSize+(i+(j-chosenDim+2f)/2)*squareSize, borderSize+(0.5+j*sqrt(3)/2)*squareSize, ellipseFactor*squareSize, ellipseFactor*squareSize);
         } else if (current.get(i, j) > 1)
         {
+          noStroke();
           fill(0, 255, 0);
           ellipse(borderSize+(i+(j-chosenDim+2f)/2)*squareSize, borderSize+(0.5+j*sqrt(3)/2)*squareSize, ellipseFactor*squareSize, ellipseFactor*squareSize);
         }
@@ -122,6 +123,7 @@ void u_showHexBoard(Board current, int borderSize)
 
 void u_drawPionnetje(int r, int g, int b, int borderSize, int squareSize, int i, int j)
 {
+  noStroke();
   fill(r, g, b);
   ellipse(borderSize+i*squareSize, borderSize+j*squareSize, squareSize, squareSize);
 }
